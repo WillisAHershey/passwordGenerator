@@ -23,6 +23,7 @@
 #define lower 1
 #define upper 2
 #define mixed 3
+//(Notice mixed = lower | upper)
 
 //When this argument is read, the program adds special characters to the alphabet of the password
 #define SPECIAL_CHARACTER_FLAG "-s"
@@ -47,7 +48,7 @@ const char uppers[]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'
 const char numbers[]={'0','1','2','3','4','5','6','7','8','9'};
 const char specials[]={'!','\"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'};
 
-//This is a struct which neatly and compactly stores the settings of this run of the program
+//This is a struct which neatly and compactly stores the settings of this run of the program. On most systems this will be an 8-byte structure
 typedef struct{
   unsigned int length;
   unsigned int cs:2;
@@ -145,9 +146,9 @@ int main(int args,char *argv[]){
   FILE *f=s.stdio?NULL:fopen(UNIX_ENTROPY_FILE,"rb");
   //We calculate the total size of the alphabet based on the settings
   int alphabet=0;
-  if(s.cs==lower||s.cs==mixed)
+  if(s.cs&lower)
 	alphabet+=sizeof(lowers);
-  if(s.cs==upper||s.cs==mixed)
+  if(s.cs&upper)
 	alphabet+=sizeof(uppers);
   if(s.specials)
 	alphabet+=sizeof(specials);
@@ -157,7 +158,7 @@ int main(int args,char *argv[]){
   for(int i=0;i<s.length;++i){
 	//passwordRandom() uses stdio rand() if reading from /dev/random fails
 	int index=passwordRandom(f)%alphabet;
-	if(s.cs==lower||s.cs==mixed){
+	if(s.cs&lower){
 		if(index<sizeof(lowers)){
 			fprintf(write_to,"%c",lowers[index]);
 			continue;
@@ -165,7 +166,7 @@ int main(int args,char *argv[]){
 		else
 			index-=sizeof(lowers);
 	}
-	if(s.cs==upper||s.cs==mixed){
+	if(s.cs&upper){
 		if(index<sizeof(uppers)){
 			fprintf(write_to,"%c",uppers[index]);
 			continue;
