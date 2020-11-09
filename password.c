@@ -23,7 +23,7 @@
 #define lower 1
 #define upper 2
 #define mixed 3
-//(Notice mixed = lower | upper)
+//(Notice mixed = lower | upper) ;)
 
 //When this argument is read, the program adds special characters to the alphabet of the password
 #define SPECIAL_CHARACTER_FLAG "-s"
@@ -37,7 +37,7 @@
 //When this flag is read, the program expects the next argument to be a valid filename that can be written to
 #define WRITE_TO_FLAG "-w"
 
-//These are the error flags which can be ored together to get compount errors
+//These are the error flags which can be or-ed together to get compound errors
 #define NO_LENGTH_ERROR 0x1
 #define NO_CASE_ERROR 0x2
 #define BAD_WRITE_TO_ERROR 0x4
@@ -71,9 +71,9 @@ void inputError(int errorCode){
   exit(EXIT_FAILURE);
 }
 
-//This function will use the UNIX entropy file to produce random unless the fp is NULL, in which case it uses the stdio pseudo-random function.
+//This function will use the UNIX entropy file to produce random unless the fp is NULL, in which case it defaults to the stdio.h pseudo-random function.
 unsigned int passwordRandom(FILE *f){
-  static int seed;
+  static int seed=0;
   if(!f){
 	if(!seed)
 		srand((seed=time(NULL)));
@@ -98,8 +98,8 @@ int main(int args,char *argv[]){
 	if(!strcmp(LENGTH_FLAG,argv[i])){
 		if(s.length) //Error if case is double set
 			inputError(NO_LENGTH_ERROR);
-		int check=s.length=atoi(argv[++i]);
-		if(!check)
+		s.length=atoi(argv[++i]);
+		if(!s.length)
 			s.errorCode|=NO_LENGTH_ERROR; //Errors are set with | instead of ^ on the off chance the same error occurs an even number of times.
 	}
 	else if(!strcmp(CASE_FLAG,argv[i])){
@@ -147,13 +147,13 @@ int main(int args,char *argv[]){
   //We calculate the total size of the alphabet based on the settings
   int alphabet=0;
   if(s.cs&lower)
-	alphabet+=sizeof(lowers);
+	alphabet+=sizeof lowers;
   if(s.cs&upper)
-	alphabet+=sizeof(uppers);
+	alphabet+=sizeof uppers;
   if(s.specials)
-	alphabet+=sizeof(specials);
+	alphabet+=sizeof specials;
   if(s.numbers)
-	alphabet+=sizeof(numbers);
+	alphabet+=sizeof numbers;
   //Then we loop though producing random integers between zero and sizeof(alphabet)-1
   for(int i=0;i<s.length;++i){
 	//passwordRandom() uses stdio rand() if reading from /dev/random fails
