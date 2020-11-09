@@ -1,11 +1,12 @@
 //Willis A. Hershey
+//WillisAHershey@gmail.com
 //Random password generator
 //Fourteenth of September, year of our Lord Two Thousand and Twenty
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <stdio.h> //fprintf(), rand(), fopen(), fread(), FILE
+#include <stdlib.h> //NULL
+#include <string.h> //strcmp()
+#include <time.h> //time()
 
 #define UNIX_ENTROPY_FILE "/dev/random"
 
@@ -48,7 +49,7 @@ const char uppers[]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'
 const char numbers[]={'0','1','2','3','4','5','6','7','8','9'};
 const char specials[]={'!','\"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'};
 
-//This is a struct which neatly and compactly stores the settings of this run of the program. On most systems this will be an 8-byte structure
+//This is a struct which neatly and compactly stores the settings of this run of the program
 typedef struct{
   unsigned int length;
   unsigned int cs:2;
