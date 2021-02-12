@@ -40,8 +40,8 @@
 
 //These are the error flags which can be or-ed together to get compound errors
 #define NO_LENGTH_ERROR 0x1
-#define NO_CASE_ERROR 0x2
-#define BAD_WRITE_TO_ERROR 0x4
+#define NO_CASE_ERROR (0x1<<1)
+#define BAD_WRITE_TO_ERROR (0x1<<2)
 
 //These are all the supported characters to be included in the alphabet of the password
 const char lowers[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
@@ -90,6 +90,10 @@ unsigned int passwordRandom(FILE *f){
 }
 
 int main(int args,char *argv[]){
+  if(args==1){
+	fprintf(stderr,"USAGE: %s -l (length) -c {lower|upper|mixed}\noptionally add:\n-n for numbers\n-s for special characters\n-w (filename) for alternative output file\n-stdio-rand for stdio.h library random number generator\n",argv[0]);
+	exit(EXIT_FAILURE);
+  }
   //Default output file is stdout, but this changes if "-w" is read
   FILE *write_to=stdout;
   //Necessary parameters are set to invalid values, and unnecessary parameters are set to default values
