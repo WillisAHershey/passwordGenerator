@@ -17,4 +17,4 @@ You may also optionally provide any of the following flags:
 
 Because these passwords are (at least pseudo-)randomly generated, there is no guarantee that passwords generated with, for example, "-c mixed" will contain both capital and lowercase letters; there is always a chance that all of the values generated are in one or the other set. This is also true of number and special characters if you request them.
 
-If this program does not produce a password that meets some requirement, and your input is propperly set, then you should just run the program again with the same arguments until it produces something that meets the requirement.
+If this program does not produce a password that meets some requirement, and your input is properly set, then you should just run the program again with the same arguments until it produces something that meets the requirement.
